@@ -1,0 +1,53 @@
+<script type="text/javascript">
+// Simulating $_GET['id'] for demonstration
+const queryParams = new URLSearchParams(window.location.search);
+const idParam = queryParams.get('id');
+
+// Initialize an empty object to store response data
+let response = {};
+
+// Check if 'id' parameter is provided in the URL
+if (idParam !== null) {
+    // Convert 'id' parameter to integer for safe comparison
+    const id = parseInt(idParam);
+
+    // Process based on the value of 'id'
+    switch (id) {
+        case 1:
+            response = {
+                status: true,
+                id: 1,
+                name: "John",
+                error: false
+            };
+            break;
+        case 2:
+            response = {
+                status: true,
+                id: 2,
+                name: "Doe",
+                error: false
+            };
+            break;
+        default:
+            response = {
+                status: false,
+                error: true
+            };
+            break;
+    }
+} else {
+    // Handle case where 'id' parameter is not provided
+    response = {
+        status: false,
+        error: true
+    };
+}
+
+// Convert response object to JSON string
+const jsonResponse = JSON.stringify(response, null, 2); // null and 2 for pretty formatting
+
+// Output JSON directly on the webpage using document.write()
+document.write('<pre>' + jsonResponse + '</pre>');
+
+</script>
