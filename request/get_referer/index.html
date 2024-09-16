@@ -1,1 +1,52 @@
 
+<script type="text/javascript">
+    // Simulating $_GET['id'] for demonstration
+    const queryParams = new URLSearchParams(window.location.search);
+    
+    // Retrieve parameters from the URL
+    const licenseParam = queryParams.get('license');
+    const productParam = queryParams.get('product');
+    const versionParam = queryParams.get('version');
+    const refererParam = queryParams.get('referer');
+    const checkerParam = queryParams.get('checker');
+    
+    // Initialize an empty object to store response data
+    let response = {};
+    
+    // Check conditions based on parameters
+    if (licenseParam !== null && productParam === 'ok_ru_player' && versionParam === '1.1.0' && refererParam !== null && checkerParam === 'setup') {
+        // Process based on the value of 'licenseParam'
+        switch (licenseParam) {
+            case 'house_of_wisdom':
+                response = {
+                    status: 'success',
+                    message: 'Successfully Installed...'
+                };
+                break;
+            case 'LustyCodes':
+                response = {
+                    status: 'success',
+                    message: 'Successfully Installed...'
+                };
+                break;
+            default:
+                response = {
+                    status: 'error',
+                    message: 'Invalid license key'
+                };
+                break;
+        }
+    } else {
+        // Handle case where conditions are not met
+        response = {
+            status: 'error',
+            message: 'Invalid parameters or conditions not met'
+        };
+    }
+    
+    // Convert response object to JSON string
+    const jsonResponse = JSON.stringify(response, null, 2); // null and 2 for pretty formatting
+    
+    // Output JSON directly on the webpage using document.write()
+    document.write('<pre>' + jsonResponse + '</pre>');
+</script>
