@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     // Simulating $_GET['id'] for demonstration
     const queryParams = new URLSearchParams(window.location.search);
@@ -18,15 +17,16 @@
         // Process based on the value of 'licenseParam'
         switch (licenseParam) {
             case 'house_of_wisdom':
-                response = {
-                    status: 'success',
-                    message: 'Successfully Installed...'
-                };
-                break;
             case 'LustyCodes':
                 response = {
                     status: 'success',
-                    message: 'Successfully Installed...'
+                    info: {
+                        status: "Active",
+                        domain: window.location.hostname,  // Simulating $_SERVER['HTTP_HOST']
+                        latest: "1.1.0",
+                        update: "1.1.0",
+                        subscription: "Valid"
+                    }
                 };
                 break;
             default:
@@ -44,9 +44,30 @@
         };
     }
     
-    // Convert response object to JSON string
-    const jsonResponse = JSON.stringify(response, null, 2); // null and 2 for pretty formatting
+    // Prepare the data to be sent in the POST request
+    const postData = {
+        license: licenseParam,
+        product: productParam,
+        version: versionParam,
+        referer: refererParam,
+        checker: checkerParam,
+        response: response
+    };
     
-    // Output JSON directly on the webpage using document.write()
-    document.write('<pre>' + jsonResponse + '</pre>');
+    // Make a POST request
+    fetch('./', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Output response data on the webpage
+        document.write('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 </script>
